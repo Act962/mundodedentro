@@ -9,6 +9,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio"
   },

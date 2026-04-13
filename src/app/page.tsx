@@ -56,7 +56,11 @@ export async function generateMetadata(): Promise<Metadata> {
         title: seo.title,
         description: seo.description,
         openGraph: seo.ogImage
-          ? { title: seo.title, description: seo.description, images: [seo.ogImage] }
+          ? {
+              title: seo.title,
+              description: seo.description,
+              images: [seo.ogImage],
+            }
           : undefined,
       };
     }
@@ -72,8 +76,27 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const { hero, general, about, contact, team, testimonials, services, photos } =
-    await getPageData();
+  const {
+    hero,
+    general,
+    about,
+    contact,
+    team,
+    testimonials,
+    services,
+    photos,
+  } = await getPageData();
+
+  console.log({
+    Hero: hero,
+    General: general,
+    About: about,
+    Contact: contact,
+    Team: team,
+    Testimonials: testimonials,
+    Services: services,
+    Photos: photos,
+  });
 
   const whatsappUrl = general?.whatsapp
     ? `https://wa.me/${general.whatsapp}`
