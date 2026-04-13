@@ -11,6 +11,7 @@ import Team from "@/components/landing/Team";
 import Testimonials from "@/components/landing/Testimonials";
 import WhatsAppButton from "@/components/landing/WhatsAppButton";
 import prisma from "@/lib/prisma";
+export const dynamic = "force-dynamic";
 
 async function getPageData() {
   const [
@@ -34,6 +35,23 @@ async function getPageData() {
     prisma.service.findMany({ orderBy: { order: "asc" } }),
     prisma.galleryPhoto.findMany({ orderBy: { order: "asc" } }),
   ]);
+
+  if (heroResult.status === "rejected")
+    console.error("Hero Query Failed:", heroResult.reason);
+  if (generalResult.status === "rejected")
+    console.error("General Query Failed:", generalResult.reason);
+  if (aboutResult.status === "rejected")
+    console.error("About Query Failed:", aboutResult.reason);
+  if (contactResult.status === "rejected")
+    console.error("Contact Query Failed:", contactResult.reason);
+  if (teamResult.status === "rejected")
+    console.error("Team Query Failed:", teamResult.reason);
+  if (testimonialsResult.status === "rejected")
+    console.error("Testimonials Query Failed:", testimonialsResult.reason);
+  if (servicesResult.status === "rejected")
+    console.error("Services Query Failed:", servicesResult.reason);
+  if (photosResult.status === "rejected")
+    console.error("Photos Query Failed:", photosResult.reason);
 
   return {
     hero: heroResult.status === "fulfilled" ? heroResult.value : null,

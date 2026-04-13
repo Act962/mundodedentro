@@ -34,13 +34,21 @@ export async function POST(request: Request) {
     );
   }
 
-  const ext = extname(file.name) || ".jpg";
-  const filename = `${randomBytes(16).toString("hex")}${ext}`;
-  const uploadDir = join(process.cwd(), "public", "uploads");
+  try {
+    const ext = extname(file.name) || ".jpg";
+    const filename = `${randomBytes(16).toString("hex")}${ext}`;
+    const uploadDir = join(process.cwd(), "public", "uploads");
 
-  await mkdir(uploadDir, { recursive: true });
-  const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(join(uploadDir, filename), buffer);
+    await mkdir(uploadDir, { recursive: true });
+    const buffer = Buffer.from(await file.arrayBuffer());
+    await writeFile(join(uploadDir, filename), buffer);
 
-  return Response.json({ url: `/uploads/${filename}` });
+    return Response.json({ url: `/uploads/${filename}` });
+  } catch (error) {
+    console.error("Upload Error:", error);
+    return Response.json(
+      { error: "Erro interno no servidor ao salvar o arquivo." },
+      { status: 500 },
+    );
+  }
 }
