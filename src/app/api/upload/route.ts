@@ -11,6 +11,12 @@ const ALLOWED_TYPES = new Set([
   "image/svg+xml",
 ]);
 
+function getUploadsDir() {
+  // Em produção (Coolify/Docker), gravar em `public/` pode falhar (read-only)
+  // e/ou não persistir entre restarts. Use um volume montado e configure via env.
+  return process.env.UPLOADS_DIR?.trim() || join(process.cwd(), "data", "uploads");
+}
+
 export async function POST(request: Request) {
   const formData = await request.formData();
   const file = formData.get("file");
@@ -37,7 +43,7 @@ export async function POST(request: Request) {
   try {
     const ext = extname(file.name) || ".jpg";
     const filename = `${randomBytes(16).toString("hex")}${ext}`;
-    const uploadDir = join(process.cwd(), "public", "uploads");
+    const uploadDir = getUploadsDir();
 
     await mkdir(uploadDir, { recursive: true });
     const buffer = Buffer.from(await file.arrayBuffer());
