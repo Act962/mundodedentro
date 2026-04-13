@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Singleton content ───────────────────────────────────────────────────────
+
+model GeneralSettings {
+  id           String   @id @default(cuid())
+  siteName     String
+  tagline      String
+  logo         String
+  whatsapp     String
+  email        String
+  hours        String
+  location     String
+  mapEmbed     String?
+  instagramUrl String?
+  facebookUrl  String?
+  updatedAt    DateTime @updatedAt
+}
+
+model HeroContent {
+  id           String   @id @default(cuid())
+  tagline      String
+  description  String
+  ctaPrimary   String
+  ctaSecondary String
+  whatsapp     String
+  bgImage      String
+  updatedAt    DateTime @updatedAt
+}
+
+model AboutContent {
+  id              String   @id @default(cuid())
+  title           String
+  historyText     String
+  philosophyTitle String
+  philosophyText  String
+  targetAudience  String
+  yearsExperience Int      @default(20)
+  photo           String?
+  updatedAt       DateTime @updatedAt
+}
+
+model ContactInfo {
+  id       String   @id @default(cuid())
+  whatsapp String
+  email    String
+  hours    String
+  location String
+  mapEmbed String?
+  updatedAt DateTime @updatedAt
+}
+
+model SeoSettings {
+  id          String   @id @default(cuid())
+  page        String   @unique
+  title       String
+  description String
+  ogImage     String?
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── List content (full CRUD) ────────────────────────────────────────────────
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryPhoto {
+  id        String   @id @default(cuid())
+  src       String
+  alt       String
+  label     String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamMember {
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  specialties String[]
+  photo       String?
+  isLeader    Boolean  @default(false)
+  bio         String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  text      String
+  author    String
+  rating    Int      @default(5)
+  photo     String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
