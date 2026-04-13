@@ -11,9 +11,15 @@ interface ImageUploadProps {
   value: string;
   onChange: (url: string) => void;
   label?: string;
+  maxSizeMB?: number;
 }
 
-export function ImageUpload({ value, onChange, label = "Imagem" }: ImageUploadProps) {
+export function ImageUpload({
+  value,
+  onChange,
+  label = "Imagem",
+  maxSizeMB = 5,
+}: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -40,7 +46,12 @@ export function ImageUpload({ value, onChange, label = "Imagem" }: ImageUploadPr
 
   return (
     <div className="flex flex-col gap-2">
-      <Label>{label}</Label>
+      <div className="space-y-1">
+        <Label>{label}</Label>
+        <p className="text-xs text-muted-foreground">
+          Tamanho máximo: {maxSizeMB}MB. Formatos: JPG, PNG, WEBP, GIF, SVG.
+        </p>
+      </div>
       <div className="flex items-center gap-2">
         <Input
           value={value}
