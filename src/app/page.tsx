@@ -13,11 +13,30 @@ import WhatsAppButton from "@/components/landing/WhatsAppButton";
 import prisma from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
+type ParentApproach = {
+  icon: string;
+  title: string;
+  description: string;
+};
+
+function isParentApproach(value: unknown): value is ParentApproach {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return false;
+  }
+  const approach = value as Record<string, unknown>;
+  return (
+    typeof approach.icon === "string" &&
+    typeof approach.title === "string" &&
+    typeof approach.description === "string"
+  );
+}
+
 async function getPageData() {
   const [
     heroResult,
     generalResult,
     aboutResult,
+    parentsResult,
     contactResult,
     teamResult,
     testimonialsResult,
@@ -27,6 +46,7 @@ async function getPageData() {
     prisma.heroContent.findFirst(),
     prisma.generalSettings.findFirst(),
     prisma.aboutContent.findFirst(),
+    prisma.parentsContent.findFirst(),
     prisma.contactInfo.findFirst(),
     prisma.teamMember.findMany({
       orderBy: [{ isLeader: "desc" }, { order: "asc" }],
@@ -42,6 +62,8 @@ async function getPageData() {
     console.error("General Query Failed:", generalResult.reason);
   if (aboutResult.status === "rejected")
     console.error("About Query Failed:", aboutResult.reason);
+  if (parentsResult.status === "rejected")
+    console.error("Parents Query Failed:", parentsResult.reason);
   if (contactResult.status === "rejected")
     console.error("Contact Query Failed:", contactResult.reason);
   if (teamResult.status === "rejected")
@@ -57,6 +79,7 @@ async function getPageData() {
     hero: heroResult.status === "fulfilled" ? heroResult.value : null,
     general: generalResult.status === "fulfilled" ? generalResult.value : null,
     about: aboutResult.status === "fulfilled" ? aboutResult.value : null,
+    parents: parentsResult.status === "fulfilled" ? parentsResult.value : null,
     contact: contactResult.status === "fulfilled" ? contactResult.value : null,
     team: teamResult.status === "fulfilled" ? teamResult.value : [],
     testimonials:
@@ -98,6 +121,7 @@ export default async function Home() {
     hero,
     general,
     about,
+    parents,
     contact,
     team,
     testimonials,
@@ -109,6 +133,7 @@ export default async function Home() {
     Hero: hero,
     General: general,
     About: about,
+    Parents: parents,
     Contact: contact,
     Team: team,
     Testimonials: testimonials,
@@ -141,7 +166,20 @@ export default async function Home() {
           targetAudience={about?.targetAudience}
         />
         <Services services={services} />
-        <ParentsSection />
+        <ParentsSection
+          badge={parents?.badge}
+          title={parents?.title}
+          description={parents?.description}
+          approaches={
+            Array.isArray(parents?.approaches)
+              ? parents.approaches.filter(isParentApproach)
+              : undefined
+          }
+          warningTitle={parents?.warningTitle}
+          warningDescription={parents?.warningDescription}
+          warningSignals={parents?.warningSignals}
+          warningFooter={parents?.warningFooter}
+        />
         <Gallery photos={photos} />
         <Team members={team} />
         <Testimonials testimonials={testimonials} />
