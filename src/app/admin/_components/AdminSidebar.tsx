@@ -10,6 +10,7 @@ import {
   Settings,
   Sparkles,
   Star,
+  UserRoundCheck,
   Users,
 } from "lucide-react";
 import Link from "next/link";
@@ -24,6 +25,7 @@ const navItems = [
   { label: "Hero", href: "/admin/hero", icon: Sparkles },
   { label: "Sobre", href: "/admin/about", icon: Info },
   { label: "Serviços", href: "/admin/services", icon: BookOpen },
+  { label: "Pais", href: "/admin/parents", icon: UserRoundCheck },
   { label: "Galeria", href: "/admin/gallery", icon: Image },
   { label: "Equipe", href: "/admin/team", icon: Users },
   { label: "Depoimentos", href: "/admin/testimonials", icon: Star },

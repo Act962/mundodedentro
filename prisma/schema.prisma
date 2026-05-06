@@ -47,6 +47,19 @@ model AboutContent {
   updatedAt       DateTime @updatedAt
 }
 
+model ParentsContent {
+  id                 String   @id @default(cuid())
+  badge              String
+  title              String
+  description        String
+  approaches         Json
+  warningTitle       String
+  warningDescription String
+  warningSignals     String[]
+  warningFooter      String
+  updatedAt          DateTime @updatedAt
+}
+
 model ContactInfo {
   id       String   @id @default(cuid())
   whatsapp String

@@ -62,10 +62,7 @@ export function LoginForm() {
         <CardDescription>Instituto Mundo de Dentro</CardDescription>
       </CardHeader>
       <CardContent>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="email">E-mail</Label>
             <Input
@@ -74,6 +71,7 @@ export function LoginForm() {
               autoComplete="email"
               {...register("email")}
               aria-invalid={!!errors.email}
+              placeholder="john@gmail.com"
             />
             {errors.email && (
               <p className="text-sm text-destructive">{errors.email.message}</p>
@@ -87,6 +85,7 @@ export function LoginForm() {
               autoComplete="current-password"
               {...register("password")}
               aria-invalid={!!errors.password}
+              placeholder="••••••••"
             />
             {errors.password && (
               <p className="text-sm text-destructive">
